@@ -1,4 +1,5 @@
 /backend/vendor
 /backend/.env
+/backend/public/images
 /frontend/node_modules
 

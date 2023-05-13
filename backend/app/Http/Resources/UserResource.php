@@ -16,9 +16,11 @@ class UserResource extends JsonResource
     {
         return [
             'id'            => $this->id,
+            'role'          => $this->role->name,
             'accessToken'   => $this->createToken('backend')->accessToken,
             'name'          => $this->name,
             'email'         => $this->email,
+            'isAdmin'       => $this->is_admin
         ];
     }
 }

@@ -15,45 +15,23 @@
               </div>
               <div class="form-group">
                 <label for="productCategory">Product Category</label>
-                <select class="form-control"  v-if="product.productCategory !== 'Create New'" id="productCategory" name="productCategory" v-model="product.productCategory">
-                    <option 
-                      v-for="(category, index) in categories" :key="index" 
-                      v-bind:value="category.productCategory" 
+                <select class="form-control" id="productCategory" name="productCategory" v-model="product.productCategoryId">
+                    <option
+                      v-for="(category, index) in categories" :key="index"
+                      v-bind:value="category.productCategoryId"
                       >{{category.productCategory}}
                     </option>
                 </select>
-                <input type="password" class="form-control" id="productCategroyDummy"  v-if="product.productCategory === 'Create New'" placeholder="Password" name="productCategroyDummy" v-model="product.productCategroyDummy">
               </div>
               <div class="form-group">
-                <label for="productSeller">Product Seller</label>
-                <select class="form-control"  v-if="product.productSeller !== 'Create New'" id="productSeller" name="productSeller" v-model="product.productSeller">
-                    <option 
-                      v-for="(seller, index) in sellers" :key="index" 
-                      v-bind:value="seller.productSeller" 
-                      >{{seller.productSeller}}
-                    </option>
-                </select>
-                <input type="password" class="form-control" id="productSellerDummy"  v-if="product.productSeller === 'Create New'" placeholder="Password" name="productSellerDummy" v-model="product.productSellerDummy">
+                <label for="productName">Product Description</label>
+                <input type="text" class="form-control" id="productName" v-model="product.productDescription" name="productDescription" aria-describedby="emailHelp" placeholder="Enter Product Description">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
               </div>
-              <div class="row">
-                <div class="col">
-                  <div class="form-group">
-                    <label for="isBestProduct">Best Product</label>
-                    <input type="checkbox" class="form-control" id="isBestProduct" name="isBestProduct" v-model="product.isBestProduct" placeholder="Password">
-                  </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                      <label for="isTopProduct">Top Product</label>
-                      <input type="checkbox" class="form-control" id="isTopProduct" name="isTopProduct" placeholder="Password" v-model="product.isTopProduct">
-                    </div>
-                </div>
-                <div class="col">
-                  <div class="form-group">
-                    <label for="productRating">Product Rating</label>
-                    <input type="password" class="form-control" id="productRating" placeholder="Password">
-                  </div>
-                </div>
+              <div class="form-group">
+                <label for="productName">Product Price</label>
+                <input type="text" class="form-control" id="productName" v-model="product.productPrice" name="productDescription" aria-describedby="emailHelp" placeholder="Enter Product Price">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
               </div>
               <div class="form-group">
                 <label for="productImage">Product Image</label>
@@ -77,9 +55,7 @@ export default {
     return {
       errors: [],
       productCategroyDummy: "",
-      productSellerDummy: "",
       categories: [],
-      sellers: [],
       loading: false,
     };
   },
@@ -97,24 +73,15 @@ export default {
         // getting all products and getting the uniq value for
         // productCategory and returning the productCategory property only
         this.categories = _.uniqBy(
-          _.map(response.data, function (object) {
-            return _.pick(object, ["productCategory"]);
+          _.map(response.data.data, function (object) {
+            return _.pick(object, ["productCategory", "productCategoryId"]);
           }),
           "productCategory"
         );
-        this.categories.push({ productCategory: "Create New" });
+        //this.categories.push({ productCategory: "Create New" });
 
         // getting all products and getting the uniq value for
         // productSeller and returning the productSeller property only
-        this.sellers = _.uniqBy(
-          _.map(response.data, function (object) {
-            return _.pick(object, ["productSeller"]);
-          }),
-          "productSeller"
-        );
-
-        this.sellers.push({ productSeller: "Create New" });
-
         this.loading = false;
       })
       .catch((error) => {

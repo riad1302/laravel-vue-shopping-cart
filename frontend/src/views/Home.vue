@@ -6,7 +6,7 @@
         <h3 class="display-5 ">
           <span style="color:#42b983">VueShop</span>
         </h3>
-        <p class="lead">A ShoppingCart (Ecommerce) Application using Vue.js.</p>
+        <p class="lead">A ShoppingCart Application using Vue.js.</p>
       </div>
     </div>
     <nav aria-label="breadcrumb">
