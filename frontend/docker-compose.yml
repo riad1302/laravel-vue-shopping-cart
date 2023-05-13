@@ -1,0 +1,18 @@
+# Version of Docker-compose
+version: "3"
+services:
+  vue-frontend:
+    # Location to the vue.js dockerfile
+    build:
+      context:
+        .
+        # Name of the dockerfile
+      dockerfile: Dockerfile
+    container_name: vue-frontend-container
+    ports:
+      # Host port:Container port
+      - "8085:8080"
+    stdin_open: true
+    volumes:
+      - .:/app/frontend
+      - /app/frontend/node_modules
