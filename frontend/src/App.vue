@@ -212,4 +212,9 @@ footer {
 #toast-container>div{
   color: black;
 }
+.error-from{
+  float: left;
+  padding: 2px;
+  color: red;
+}
 </style>

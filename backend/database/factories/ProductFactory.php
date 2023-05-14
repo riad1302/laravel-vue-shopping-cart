@@ -21,8 +21,8 @@ class ProductFactory extends Factory
             'product_category_id' => ProductCategory::factory(),
             'name' => $this->faker->name(),
             'description' => $this->faker->text(),
-            'price' => $this->faker->numberBetween($min=100, $max=2000),
-            'image' => $this->faker->image('public/images',400,300)
+            'price' => $this->faker->numberBetween($min = 100, $max = 2000),
+            'image' => $this->faker->image('public/images', 400, 300),
         ];
     }
 }

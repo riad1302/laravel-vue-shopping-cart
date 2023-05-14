@@ -24,11 +24,12 @@
             type="text"
             class="form-control"
             id="name"
+            name="name"
             placeholder="Name"
             v-model="user.name"
-            required
+            v-validate="'required|min:5'"
           />
-          <div class="invalid-feedback">Valid first name is required.</div>
+          <span class="error-from">{{ errors.first('name') }}</span>
         </div>
       </div>
       <div class="row">
@@ -38,11 +39,11 @@
             class="form-control"
             v-model="user.email"
             id="emailId"
+            name="email"
             placeholder="Email address"
-            value
-            required
+            v-validate="'required|email'"
           />
-          <div class="invalid-feedback">Valid first name is required.</div>
+          <span class="error-from">{{ errors.first('email') }}</span>
         </div>
       </div>
       <div class="row">
@@ -52,11 +53,12 @@
             class="form-control"
             id="act-password"
             placeholder="New password"
-            value
+            name="password"
             v-model="user.password"
-            required
+            v-validate="'required|min:8'"
           />
-          <div class="invalid-feedback">Valid first name is required.</div>
+          <span class="error-from">{{ errors.first('password') }}</span>
+
         </div>
       </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">
@@ -84,44 +86,27 @@ export default {
   methods: {
     createAccount() {
       this.showLoader = true;
-
       this.errorMessage = [];
-
-      if (this.user.name.length < 5) {
-        this.errorMessage.push(
-          "FirstName should contains more than 5 character"
-        );
-      }
-
-      if (this.ValidateEmail(this.user.email) === false) {
-        this.errorMessage.push("Please provide a valid Email address");
-      }
-      if (this.errorMessage.length === 0) {
-        axios
-          .post(`${process.env.VUE_APP_BASE_URL}/register`, this.user)
-          .then(() => {
-            this.showLoader = false;
-            successToaster(
-              "Registered Successfully",
-              "User Registered Successfully"
-            );
-          })
-          .catch((error) => {
-            console.log(error);
-            errorToaster(
-              "Registeration Failed",
-              "Please try again after sometime"
-            );
-          });
-      }
-    },
-
-    ValidateEmail(mail) {
-      if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-        return true;
-      }
-      return false;
-    },
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          axios.post(`${process.env.VUE_APP_BASE_URL}/register`, this.user)
+            .then((response) => {
+              if (response.data.success) {
+                this.showLoader = false;
+                successToaster("User Registered Successfully");
+                this.$router.push("/login");
+              } else {
+                console.log(data.response.success);
+              }
+            }).catch((response) => {
+              console.log(response);
+              errorToaster(
+                      "Registeration Failed",
+              );
+            });
+        }
+      });
+    }
   },
 };
 </script>

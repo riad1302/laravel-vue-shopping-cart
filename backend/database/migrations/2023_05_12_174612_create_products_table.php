@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('product_category_id')->constrained('product_categories');
             $table->string('name');
             $table->string('description');
-            $table->decimal('price', 8,2);
+            $table->decimal('price', 8, 2);
             $table->string('image');
             $table->timestamps();
         });

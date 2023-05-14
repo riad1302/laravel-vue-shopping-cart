@@ -1,4 +1,5 @@
 import Vue from "vue";
+import VeeValidate from 'vee-validate';
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
@@ -8,7 +9,7 @@ import NProgress from "nprogress";
 
 import "../node_modules/nprogress/nprogress.css";
 
-
+Vue.use(VeeValidate);
 Vue.config.productionTip = false;
 
 router.beforeResolve((to, from, next) => {

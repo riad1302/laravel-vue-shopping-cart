@@ -13,29 +13,38 @@
             height="72"
           />
           <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-          <label for="email" class="sr-only">Email address</label>
-          <input
-            type="email"
-            id="email"
-            class="form-control"
-            v-model="email"
-            placeholder="Email address"
-            required
-            autocomplete="email"
-          />
-          <label for="password" class="sr-only">Password</label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            class="form-control"
-            placeholder="Password"
-            required
-            autocomplete="current-password"
-          />
-          <p class="text-muted">
-            <a href="javascript:;;">Forget password ?</a>
-          </p>
+          <div class="row">
+            <div class="col-md mb-3">
+              <label for="email" class="sr-only">Email address</label>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                v-model="email"
+                name="email"
+                placeholder="Email address"
+                v-validate="'required|email'"
+                autocomplete="email"
+              />
+              <span class="error-from">{{ errors.first('email') }}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md mb-3">
+              <label for="password" class="sr-only">Password</label>
+              <input
+                type="password"
+                id="password"
+                v-model="password"
+                class="form-control"
+                placeholder="Password"
+                name="password"
+                v-validate="'required|min:8'"
+                autocomplete="current-password"
+              />
+              <span class="error-from">{{ errors.first('password') }}</span>
+            </div>
+          </div>
           <button class="btn btn-lg btn-primary btn-block" type="submit">
             <i class="fa fa-spinner fa-spin mr-1" v-if="showLoader"></i> Log In
           </button>
@@ -47,7 +56,8 @@
           </span>
           <span v-if="!isSignUp">
             New to Register?
-            <a href="javascript:;;" @click="toggleForm">Create an Account</a>
+<!--            <a href="javascript:;;" @click="toggleForm">Create an Account</a>-->
+            <router-link to="/register" class="nav-link">Create an Account</router-link>
           </span>
         </p>
       </div>
@@ -86,20 +96,21 @@ export default {
         email: this.email,
         password: this.password,
       };
-
-      axios
-        .post(`${process.env.VUE_APP_BASE_URL}/login`, user)
-        .then((response) => {
-          this.showLoader = false;
-          this.ADD_LOGGED_USER(response.data.data);
-          event.target.reset();
-          this.$router.push(this.$route.query.from || "/");
-        })
-        .catch((error) => {
-          this.showLoader = false;
-          errorToaster("Invalid Credentials", "");
-          console.log(error);
-        });
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          axios.post(`${process.env.VUE_APP_BASE_URL}/login`, user).then((response) => {
+            this.showLoader = false;
+            this.ADD_LOGGED_USER(response.data.data);
+            event.target.reset();
+            this.$router.push(this.$route.query.from || "/");
+          })
+          .catch((error) => {
+            this.showLoader = false;
+            errorToaster("Invalid Credentials", "");
+            console.log(error);
+          });
+        }
+      });
     },
   },
 };

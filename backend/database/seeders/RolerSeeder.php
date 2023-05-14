@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Role;
 use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class RolerSeeder extends Seeder
@@ -28,7 +27,7 @@ class RolerSeeder extends Seeder
                 'name' => 'user',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ]
+            ],
         ];
         foreach ($roles as $key => $role) {
             Role::updateOrCreate(['id' => $role['id']], $role);
