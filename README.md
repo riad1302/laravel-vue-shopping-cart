@@ -8,6 +8,9 @@
 #### All Product Page
 ![list of users](./docs/assets/product.png)
 
+#### Cart Page
+![list of users](./docs/assets/cart.png)
+
 #### Create Product 
 ![list of users](./docs/assets/create-product.png)
 
@@ -26,6 +29,7 @@
 - Laravel Sail (Backend Docker)
 - VueJs (front-end)
 - Vuex
+- Bootstrap
 - MySQL (Database)
 - Docker (Frontend)
 
