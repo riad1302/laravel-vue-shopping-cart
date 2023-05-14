@@ -9,6 +9,7 @@
 <script>
 import Modal from "../../shared/Modal";
 import ProductForm from "./ProductForm";
+import {errorToaster, successToaster} from "../../shared/service/ErrorHandler";
 
 export default {
   name: "editProduct",
@@ -26,8 +27,15 @@ export default {
     },
 
     productAction: function(product) {
-      console.log("Updated Product Details", product);
-      // Update the product to server
+        this.$http.post(`/update/products/${product.id}`, product).then((response) => {
+            if (response.data.success) {
+                this.showModal = false;
+                successToaster(response.data.message, "", );
+            }
+        }).catch((error) => {
+            //console.log(error);
+            errorToaster("Product Create Failed", "");
+        });
     }
   }
 };

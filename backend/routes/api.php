@@ -27,5 +27,8 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('/products', 'products');
     Route::get('/products/{id}', 'productInfo');
     Route::get('/latest/products', 'latestProducts');
-    Route::post('/create/products', 'store');
+    Route::middleware(['auth:api'])->group(function () {
+        Route::post('/create/products', 'store');
+        Route::post('/update/products/{id}', 'update');
+    });
 });

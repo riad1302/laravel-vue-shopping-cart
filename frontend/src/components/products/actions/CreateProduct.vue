@@ -14,7 +14,7 @@
 import axios from "axios";
 import Modal from "../../shared/Modal.vue";
 import ProductForm from "./ProductForm";
-import {errorToaster} from "../../shared/service/ErrorHandler";
+import {errorToaster, successToaster} from "../../shared/service/ErrorHandler";
 export default {
   name: "createProduct",
   components: { Modal, ProductForm },
@@ -30,16 +30,16 @@ export default {
     },
 
     productAction: function(product) {
-      console.log("Creating new Product", product);
-      axios.post(`${process.env.VUE_APP_BASE_URL}/create/products`, product)
-          .then((response) => {
-
-            // Getting Similar Product
-          })
-          .catch((error) => {
-            console.log(error);
-            errorToaster("Product Create Failed", "");
-          });
+      //console.log("Creating new Product", product);
+      this.$http.post('/create/products', product).then((response) => {
+        if (response.data.success) {
+          this.showModal = false;
+          successToaster(response.data.message, "", );
+        }
+      }).catch((error) => {
+        //console.log(error);
+        errorToaster("Product Create Failed", "");
+      });
       //
     },
   },

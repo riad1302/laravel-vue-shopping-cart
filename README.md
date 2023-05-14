@@ -2,20 +2,23 @@
 
 ### Demo
 
+#### Home Page
+![list of users](./docs/assets/home.png)
+
+#### All Product Page
+![list of users](./docs/assets/product.png)
+
+#### Create Product 
+![list of users](./docs/assets/create-product.png)
+
+#### Edit Product 
+![list of users](./docs/assets/edit-product.png)
+
 #### Register User
 ![list of users](./docs/assets/register.png)
 
 #### Login User
 ![single use details](./docs/assets/login.png)
-
-#### Address Book List
-![single use details](./docs/assets/booklist.png)
-
-#### Address Book Add
-![single use details](./docs/assets/bookadd.png)
-
-#### Address Book Edit
-![single use details](./docs/assets/bookuodate.png)
 
 
 ### Tools & Tech stack used

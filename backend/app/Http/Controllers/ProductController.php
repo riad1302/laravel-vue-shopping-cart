@@ -44,4 +44,20 @@ class ProductController extends Controller
             return $exception->getMessage();
         }
     }
+
+    public function update(ProductRequest $request, int $id)
+    {
+        try {
+            $product = $this->productService->update($request->all(), $id);
+            if (! empty($product)) {
+                return $this->sendResponse($product, 'Product update successfully.');
+            } else {
+                return $this->sendError([], 'Product update Failed');
+            }
+
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+
+    }
 }
