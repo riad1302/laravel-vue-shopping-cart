@@ -13,15 +13,23 @@
         :key="index"
       >
         <div>
-          <h6 class="my-0">{{ product.productName }}</h6>
+          <h6 class="my-0" style="width: 200px">{{ product.productName }}</h6>
         </div>
+        <span class="text-muted" style="width: 10px"
+        > {{ product.productQuantity }}</span
+        >
         <span class="text-muted" style="width: 120px"
           > {{ product.productPrice }}</span
         >
       </li>
       <hr />
       <li class="list-group-item d-flex justify-content-between">
-        <span>Total</span>
+        <span>Total Quantity</span>
+        <strong> {{ totalQuantity.toFixed(2) }}</strong>
+      </li>
+      <hr />
+      <li class="list-group-item d-flex justify-content-between">
+        <span>Total Price</span>
         <strong> {{ totalValue.toFixed(2) }}</strong>
       </li>
     </ul>
@@ -33,6 +41,7 @@ export default {
   name: "cartCalculator",
   data() {
     return {
+      totalQuantity: 0.0,
       totalValue: 0.0,
     };
   },
@@ -40,8 +49,11 @@ export default {
   methods: {
     calulateTotalPrice() {
       this.totalValue = 0;
+      this.totalQuantity = 0;
       this.cartProducts.forEach((product) => {
-        this.totalValue += parseFloat(product.productPrice.replace(",", ""));
+        const productPrice = product.productPrice * product.productQuantity;
+        this.totalValue += parseFloat(productPrice);
+        this.totalQuantity += (product.productQuantity);
       });
     },
   },

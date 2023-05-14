@@ -22,6 +22,15 @@
                     class="d-flex justify-content-between align-items-center"
                   >
                     <div class="btn-group">
+                      <div class="wrapper">
+                        <button class="quantity-btn btn--minus" @click="changeCounter(item, '-1')" type="button" name="button">
+                          -
+                        </button>
+                        <input class="quantity" type="text" name="name" v-model="item.productQuantity">
+                        <button class="quantity-btn btn--plus" @click="changeCounter(item, '1')"  type="button" name="button">
+                          +
+                        </button>
+                      </div>
                     </div>
                     <small class="text-muted footerIcons">
                       <a
@@ -60,9 +69,10 @@
           <router-link to="/products" class="btn btn-primary mt-2 text-white"
             >Continue Shipping</router-link
           >
-          <router-link to="/checkout" class="btn btn-danger mt-2 text-white"
-            >Checkout</router-link
-          >
+<!--          <router-link to="/checkout" class="btn btn-danger mt-2 text-white"-->
+<!--            >Checkout</router-link-->
+<!--          >-->
+          <button class="btn btn-danger mt-2 text-white" @click="createCheckoutDetail">Checkout</button>
         </ul>
       </div>
     </div>
@@ -76,12 +86,38 @@ export default {
   name: "CartProducts",
   components: { CartCalculator },
   data() {
-    return {};
+    return {
+      counter: 1,
+    };
   },
   computed: mapState(["cartProducts"]),
   methods: {
     /* Resetting the store and localstorage after removing product from cart */
-    ...mapMutations(["SET_CART_PRODUCTS"]),
+    ...mapMutations(["SET_CART_PRODUCTS", "REMOVE_CART_CHECKOUT_DATA"]),
+
+    createCheckoutDetail() {
+      this.REMOVE_CART_CHECKOUT_DATA();
+      this.$router.push("/");
+    },
+
+    changeCounter: function(item, num){
+      //console.log(this.counter)
+      //!isNaN(num) && num > 0 ? num : num = 1;
+      const products = JSON.parse(localStorage.getItem("cartItem"));
+      for (let i = 0; i < products.length; i++) {
+        if (products[i].id === item.id) {
+          if ((products[i].productQuantity+num) > 0) {
+            products[i].productQuantity += +num;
+          } else {
+            products[i].productQuantity = 1;
+          }
+        }
+      }
+      this.SET_CART_PRODUCTS(products);
+      localStorage.setItem("cartItem", JSON.stringify(products));
+      this.$refs.cartCalculator.calulateTotalPrice();
+
+    },
 
     removeProductCart(product) {
       const products = JSON.parse(localStorage.getItem("cartItem"));
@@ -99,7 +135,34 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+  .wrapper {
+    height: 30px;
+    display: flex;
+  }
+  .quantity {
+    -webkit-appearance: none;
+    border: none;
+    text-align: center;
+    width: 30px;
+
+    font-size: 16px;
+    color: #43484D;
+    font-weight: 300;
+    border: 1px solid #E1E8EE;
+  }
+
+  .quantity-btn {
+    border: 1px solid #E1E8EE;
+    width: 30px;
+    background-color: #E1E8EE;
+    /*   border-radius: 6px; */
+    cursor: pointer;
+  }
+  button:focus,
+  input:focus {
+    outline:0;
+  }
 .error-template {
   padding: 40px 15px;
   text-align: center;
